@@ -1,0 +1,125 @@
+import { FlightComparisonData } from '../types/compare.types';
+
+export const MOCK_FLIGHT_COMPARISON: FlightComparisonData = {
+  flightA: {
+    id: 'h2-sky-5110',
+    airline: {
+      id: 'sky',
+      name: 'Sky Airline',
+      code: 'H2',
+      colorBadge: 'success',
+    },
+    cabinClass: 'Clase Económica',
+    routeLabel: 'LIM → CUZ',
+    departureTime: '14:20',
+    departureIata: 'LIM',
+    arrivalTime: '15:40',
+    arrivalIata: 'CUZ',
+    durationFormatted: '1h 20m',
+    stopsFormatted: 'Directo',
+    price: 120,
+    currency: 'S/.',
+    isCheapest: true,
+  },
+  flightB: {
+    id: 'la-latam-2045',
+    airline: {
+      id: 'latam',
+      name: 'LATAM Airlines',
+      code: 'LA',
+      colorBadge: 'primary',
+    },
+    cabinClass: 'Clase Económica',
+    routeLabel: 'LIM → CUZ',
+    departureTime: '06:30',
+    departureIata: 'LIM',
+    arrivalTime: '07:45',
+    arrivalIata: 'CUZ',
+    durationFormatted: '1h 15m',
+    stopsFormatted: 'Directo',
+    price: 145,
+    currency: 'S/.',
+    isCheapest: false,
+  },
+  specs: [
+    {
+      id: 'spec-price',
+      factorName: 'Precio',
+      flightAValue: { text: 'S/. 120', highlight: true, isPositive: true },
+      flightBValue: { text: 'S/. 145' },
+    },
+    {
+      id: 'spec-duration',
+      factorName: 'Duración',
+      flightAValue: { text: '1h 20m' },
+      flightBValue: { text: '1h 15m', highlight: true, isPositive: true },
+    },
+    {
+      id: 'spec-stops',
+      factorName: 'Escalas',
+      flightAValue: { text: 'Directo' },
+      flightBValue: { text: 'Directo' },
+    },
+    {
+      id: 'spec-carryon',
+      factorName: 'Equipaje de mano',
+      flightAValue: { text: '8kg incluido' },
+      flightBValue: { text: '10kg incluido', highlight: true, isPositive: true },
+    },
+    {
+      id: 'spec-checkedbag',
+      factorName: 'Equipaje en bodega',
+      flightAValue: { text: 'Desde S/. 45', hasCheckIcon: true },
+      flightBValue: { text: 'Incluido', hasCheckIcon: true, highlight: true, isPositive: true },
+    },
+    {
+      id: 'spec-wifi',
+      factorName: 'Wi-Fi a bordo',
+      flightAValue: { text: 'No disponible', hasCrossIcon: true, isNegative: true },
+      flightBValue: { text: 'Disponible', hasCheckIcon: true, highlight: true, isPositive: true },
+    },
+    {
+      id: 'spec-snacks',
+      factorName: 'Snacks/Bebidas',
+      flightAValue: { text: 'De cortesía', hasCheckIcon: true },
+      flightBValue: { text: 'De cortesía', hasCheckIcon: true },
+    },
+    {
+      id: 'spec-flexibility',
+      factorName: 'Flexibilidad de cambio',
+      flightAValue: { text: 'Sin cambios', hasCrossIcon: true, isNegative: true },
+      flightBValue: { text: 'Cambio desde S/. 80', hasCheckIcon: true, highlight: true, isPositive: true },
+    },
+    {
+      id: 'spec-punctuality',
+      factorName: 'Puntualidad promedio',
+      flightAValue: { text: '87%' },
+      flightBValue: { text: '92%', highlight: true, isPositive: true },
+    },
+  ],
+  recommendation: {
+    recommendedAirlineName: 'Sky Airline',
+    title: 'Te recomendamos el vuelo de Sky Airline',
+    description: 'Nuestro asistente inteligente analizó la combinación de costos, servicios y valoraciones para tu ruta.',
+    reasons: [
+      {
+        id: 'rec-1',
+        highlightText: 'Mejor precio:',
+        text: 'Ahorras S/. 25 en comparación con LATAM',
+      },
+      {
+        id: 'rec-2',
+        text: 'Vuelo directo sin escalas, ideal para tu viaje corto',
+      },
+      {
+        id: 'rec-3',
+        text: 'Snacks y bebidas de cortesía incluidos en cabina',
+      },
+      {
+        id: 'rec-4',
+        text: 'Relación calidad-precio superior para la ruta Lima-Cusco',
+      },
+    ],
+    disclaimer: 'Esta recomendación se basa en el análisis de precio, duración, servicios y valoraciones de otros viajeros.',
+  },
+};
