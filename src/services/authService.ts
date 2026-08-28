@@ -1,5 +1,10 @@
 import { AuthResponse } from '../types/auth.types';
-import { LoginFormValues } from '../validations/auth.schema';
+import {
+  LoginFormValues,
+  RegisterFormValues,
+  ForgotPasswordFormValues,
+  ResetPasswordFormValues,
+} from '../validations/auth.schema';
 import { MOCK_AUTH_RESPONSE, MOCK_TEST_USER } from '../mocks/authMocks';
 
 const USE_MOCKS = import.meta.env.VITE_USE_MOCKS !== 'false';
@@ -17,7 +22,6 @@ export const authService = {
       await simulateDelay(null, 500);
 
       // Simulación de validación de credenciales
-      // Permite el correo mockeado o cualquier correo válido con contraseña no vacía
       if (credentials.email.toLowerCase() === 'error@correo.com') {
         throw new Error('Credenciales inválidas. Verifique su correo o contraseña.');
       }
@@ -40,17 +44,58 @@ export const authService = {
       return response;
     }
 
-    // =========================================================================
-    // Preparado para el Sprint 2: Consumo del endpoint Spring Boot
-    // =========================================================================
-    /*
-    const response = await axios.post<AuthResponse>('/api/v1/auth/login', {
-      email: credentials.email,
-      password: credentials.password,
-    });
-    return response.data;
-    */
+    // Preparado para el Sprint 2: Consumo de /api/v1/auth/login
     return MOCK_AUTH_RESPONSE;
+  },
+
+  /**
+   * Registra una nueva cuenta de usuario
+   */
+  async register(data: RegisterFormValues): Promise<{ userId: string; message: string }> {
+    if (USE_MOCKS) {
+      await simulateDelay(null, 600);
+
+      if (data.email.toLowerCase() === 'existente@correo.com') {
+        throw new Error('El correo electrónico ya se encuentra registrado.');
+      }
+
+      return {
+        userId: 'usr-' + Math.random().toString(36).substring(2, 9),
+        message: 'Usuario registrado exitosamente',
+      };
+    }
+
+    // Preparado para el Sprint 2: Consumo de /api/v1/auth/register
+    return {
+      userId: 'usr-3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      message: 'Usuario registrado exitosamente',
+    };
+  },
+
+  /**
+   * Solicita el restablecimiento de contraseña mediante correo
+   */
+  async forgotPassword(data: ForgotPasswordFormValues): Promise<{ message: string }> {
+    if (USE_MOCKS) {
+      await simulateDelay(null, 500);
+      return {
+        message: `Hemos enviado un enlace de recuperación a ${data.email}`,
+      };
+    }
+    return { message: `Hemos enviado un enlace de recuperación a ${data.email}` };
+  },
+
+  /**
+   * Resetea la contraseña con un token
+   */
+  async resetPassword(token: string, data: ResetPasswordFormValues): Promise<{ message: string }> {
+    if (USE_MOCKS) {
+      await simulateDelay(null, 500);
+      return {
+        message: 'Tu contraseña ha sido actualizada con éxito',
+      };
+    }
+    return { message: 'Tu contraseña ha sido actualizada con éxito' };
   },
 
   /**
@@ -61,3 +106,4 @@ export const authService = {
     sessionStorage.removeItem('auth_token');
   },
 };
+
