@@ -11,7 +11,7 @@ import SearchResultsPage from './modules/flights/pages/SearchResultsPage';
 import FlightDetailPage from './modules/flights/pages/FlightDetailPage';
 import CompareFlightsPage from './modules/compare/pages/CompareFlightsPage';
 import FlightTrackerPage from './modules/tracker/pages/FlightTrackerPage';
-import LoginPage from './modules/auth/pages/LoginPage';
+import LoginPage, { RegisterPage, ForgotPasswordPage } from './modules/auth';
 
 // Inicialización de React Query Client
 const queryClient = new QueryClient({
@@ -51,6 +51,9 @@ export const App: React.FC = () => {
 
             {/* 6. Autenticación */}
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
 
             </Route>
 
