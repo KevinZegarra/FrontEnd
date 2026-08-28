@@ -11,8 +11,6 @@ import {
   IconButton,
   Skeleton,
 } from '@mui/material';
-import Header from '../../../components/layout/Header';
-import Footer from '../../../components/layout/Footer';
 import SearchSummaryBar from '../components/SearchSummaryBar';
 import FilterSidebar from '../components/FilterSidebar';
 import FlightCard from '../components/FlightCard';
@@ -76,10 +74,7 @@ export const SearchResultsPage: React.FC = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
-      {/* 1. Header Global */}
-      <Header activeRoute="buscar" />
-
-      {/* 2. Barra de Resumen de Búsqueda */}
+      {/* Barra de Resumen de Búsqueda */}
       <SearchSummaryBar
         searchParams={searchParams}
         onEditSearchClick={() => console.log('Editar búsqueda')}
@@ -264,8 +259,6 @@ export const SearchResultsPage: React.FC = () => {
         </Button>
       </Drawer>
 
-      {/* 4. Footer Global */}
-      <Footer />
     </Box>
   );
 };

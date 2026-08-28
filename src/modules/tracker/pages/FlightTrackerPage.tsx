@@ -7,8 +7,6 @@ import {
   Grid,
   Skeleton,
 } from '@mui/material';
-import Header from '../../../components/layout/Header';
-import Footer from '../../../components/layout/Footer';
 import FlightTrackerSearch from '../components/FlightTrackerSearch';
 import FlightStatusBanner from '../components/FlightStatusBanner';
 import FlightTimelineProgressBar from '../components/FlightTimelineProgressBar';
@@ -44,10 +42,7 @@ export const FlightTrackerPage: React.FC = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
-      {/* 1. Header Global */}
-      <Header activeRoute="estado" />
-
-      {/* 2. Contenido Principal */}
+      {/* Contenido Principal */}
       <Box component="main" sx={{ flexGrow: 1, py: { xs: 4, md: 6 }, px: { xs: 2, sm: 4, lg: 8 } }}>
         <Container maxWidth="xl" disableGutters>
           <Stack spacing={4}>
@@ -115,8 +110,6 @@ export const FlightTrackerPage: React.FC = () => {
         </Container>
       </Box>
 
-      {/* 3. Footer Global */}
-      <Footer />
     </Box>
   );
 };
