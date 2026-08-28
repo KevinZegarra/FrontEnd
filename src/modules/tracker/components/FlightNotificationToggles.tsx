@@ -129,7 +129,35 @@ export const FlightNotificationToggles: React.FC<FlightNotificationTogglesProps>
                 <Switch
                   checked={settings[item.key]}
                   onChange={() => handleToggle(item.key)}
-                  color="primary"
+                  sx={{
+                    width: 44,
+                    height: 24,
+                    padding: 0,
+                    '& .MuiSwitch-switchBase': {
+                      padding: '2px',
+                      '&.Mui-checked': {
+                        transform: 'translateX(20px)',
+                        color: '#fff',
+                        '& + .MuiSwitch-track': {
+                          backgroundColor: '#A01B2D',
+                          opacity: 1,
+                          border: 0,
+                        },
+                      },
+                    },
+                    '& .MuiSwitch-thumb': {
+                      width: 20,
+                      height: 20,
+                      boxShadow: 'none',
+                      backgroundColor: '#FFFFFF',
+                    },
+                    '& .MuiSwitch-track': {
+                      borderRadius: 12,
+                      backgroundColor: '#E2DBD7',
+                      opacity: 1,
+                      transition: 'background-color 0.2s',
+                    },
+                  }}
                 />
               </Paper>
             </Grid>
