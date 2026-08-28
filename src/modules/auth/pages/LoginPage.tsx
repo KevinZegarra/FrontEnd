@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -23,10 +24,33 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   onNavigateToRegister,
   onNavigateToForgotPassword,
 }) => {
+  const navigate = useNavigate();
+
   const handleSuccess = (authData: AuthResponse) => {
     console.log('Login exitoso:', authData.user.email);
-    onLoginSuccess?.(authData);
+    if (onLoginSuccess) {
+      onLoginSuccess(authData);
+    } else {
+      navigate('/');
+    }
   };
+
+  const handleGoToRegister = () => {
+    if (onNavigateToRegister) {
+      onNavigateToRegister();
+    } else {
+      navigate('/register');
+    }
+  };
+
+  const handleGoToForgotPassword = () => {
+    if (onNavigateToForgotPassword) {
+      onNavigateToForgotPassword();
+    } else {
+      navigate('/forgot-password');
+    }
+  };
+
 
   return (
     <Box
@@ -103,7 +127,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
             {/* Formulario React Hook Form + Zod */}
             <LoginForm
               onSuccess={handleSuccess}
-              onForgotPasswordClick={onNavigateToForgotPassword}
+              onForgotPasswordClick={handleGoToForgotPassword}
             />
 
             {/* Separador 'o continuar con' */}
@@ -130,7 +154,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 component="button"
                 type="button"
                 underline="hover"
-                onClick={onNavigateToRegister}
+                onClick={handleGoToRegister}
                 sx={{
                   color: 'primary.main',
                   fontSize: '0.875rem',
