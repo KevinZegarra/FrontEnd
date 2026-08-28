@@ -1,209 +1,158 @@
-import React from 'react';
+import React, { FormEvent, useState } from 'react';
 import {
   Box,
+  Button,
   Container,
   Grid,
-  Typography,
-  Stack,
   IconButton,
   Link,
+  Stack,
+  TextField,
+  Typography,
 } from '@mui/material';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import { NavLink } from 'react-router-dom';
+
+const quickLinks = [
+  { label: 'Inicio', to: '/' },
+  { label: 'Comparar', to: '/compare' },
+  { label: 'Estado', to: '/status' },
+  { label: 'Live Tracker', to: '/tracker' },
+];
+
+const supportLinks = [
+  { label: 'Centro de Ayuda', href: '#ayuda' },
+  { label: 'Términos y Condiciones', href: '#terminos' },
+  { label: 'Políticas de Privacidad', href: '#privacidad' },
+  { label: 'Libro de Reclamaciones', href: '#reclamaciones' },
+];
+
+const linkSx = {
+  color: 'rgba(255, 255, 255, 0.72)',
+  fontSize: '0.9rem',
+  textDecoration: 'none',
+  transition: 'color 0.2s ease',
+  '&:hover': { color: '#05BFDB' },
+};
 
 export const Footer: React.FC = () => {
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setEmail('');
+  };
+
   return (
     <Box
       component="footer"
       sx={{
-        bgcolor: 'secondary.main',
-        color: 'secondary.contrastText',
-        pt: { xs: 8, md: 10 },
-        pb: { xs: 5, md: 6 },
-        px: { xs: 2, sm: 4, lg: 8 },
+        bgcolor: '#0A4D68',
+        color: '#FFFFFF',
+        pt: { xs: 6, md: 8 },
+        pb: 3,
+        px: { xs: 2, sm: 4 },
       }}
     >
-      <Container maxWidth="xl" disableGutters>
-        <Grid container spacing={{ xs: 5, md: 6 }} justifyContent="space-between">
-          {/* Brand & Mission Column */}
-          <Grid item xs={12} md={4} lg={3.5}>
-            <Stack spacing={2.5}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Box
-                  sx={{
-                    width: 32,
-                    height: 32,
-                    bgcolor: 'primary.main',
-                    borderRadius: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: '#FFFFFF',
-                  }}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/>
-                  </svg>
-                </Box>
-                <Typography variant="h4" sx={{ fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
-                  Chasqui<Box component="span" sx={{ color: 'primary.main' }}>Fly</Box>
+      <Container maxWidth="xl">
+        <Grid container spacing={{ xs: 5, md: 4 }}>
+          <Grid item xs={12} md={3}>
+            <Stack spacing={2}>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <FlightTakeoffIcon sx={{ color: '#05BFDB', fontSize: 32 }} />
+                <Typography variant="h5" sx={{ color: '#FFFFFF', fontWeight: 800 }}>
+                  FlightTracker
                 </Typography>
-              </Box>
-
-              <Typography
-                variant="body2"
-                sx={{
-                  color: 'text.disabled',
-                  lineHeight: 1.6,
-                  maxWidth: 340,
-                }}
-              >
-                El comparador de vuelos preferido por los peruanos. Buscamos y comparamos en tiempo real para ofrecerte la mejor ruta al mejor precio.
+              </Stack>
+              <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.72)', lineHeight: 1.7, maxWidth: 300 }}>
+                Compara vuelos, encuentra las mejores rutas y sigue tu viaje en tiempo real.
               </Typography>
+              <Stack direction="row" spacing={0.5}>
+                <IconButton aria-label="Facebook" href="#facebook" sx={{ color: '#FFFFFF', '&:hover': { color: '#05BFDB' } }}>
+                  <FacebookIcon />
+                </IconButton>
+                <IconButton aria-label="Instagram" href="#instagram" sx={{ color: '#FFFFFF', '&:hover': { color: '#05BFDB' } }}>
+                  <InstagramIcon />
+                </IconButton>
+                <IconButton aria-label="Twitter" href="#twitter" sx={{ color: '#FFFFFF', '&:hover': { color: '#05BFDB' } }}>
+                  <TwitterIcon />
+                </IconButton>
+              </Stack>
+            </Stack>
+          </Grid>
 
-              <Typography
-                variant="caption"
+          <Grid item xs={12} md={3}>
+            <Typography variant="h6" sx={{ color: '#FFFFFF', fontWeight: 700, mb: 2 }}>
+              Links Rápidos
+            </Typography>
+            <Stack spacing={1.25}>
+              {quickLinks.map((link) => (
+                <Link key={link.label} component={NavLink} to={link.to} sx={linkSx}>
+                  {link.label}
+                </Link>
+              ))}
+            </Stack>
+          </Grid>
+
+          <Grid item xs={12} md={3}>
+            <Typography variant="h6" sx={{ color: '#FFFFFF', fontWeight: 700, mb: 2 }}>
+              Legal &amp; Soporte
+            </Typography>
+            <Stack spacing={1.25}>
+              {supportLinks.map((link) => (
+                <Link key={link.label} href={link.href} sx={linkSx}>
+                  {link.label}
+                </Link>
+              ))}
+            </Stack>
+          </Grid>
+
+          <Grid item xs={12} md={3}>
+            <Typography variant="h6" sx={{ color: '#FFFFFF', fontWeight: 700, mb: 1.5 }}>
+              Newsletter
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.72)', mb: 2, lineHeight: 1.6 }}>
+              Recibe novedades y ofertas de vuelos directamente en tu correo.
+            </Typography>
+            <Stack component="form" spacing={1.25} onSubmit={handleSubmit}>
+              <TextField
+                fullWidth
+                type="email"
+                required
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="Tu correo electrónico"
+                aria-label="Correo electrónico para newsletter"
                 sx={{
-                  color: 'text.secondary',
-                  fontSize: '0.75rem',
+                  '& .MuiOutlinedInput-root': {
+                    color: '#FFFFFF',
+                    bgcolor: 'rgba(255, 255, 255, 0.08)',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.35)' },
+                    '&:hover fieldset': { borderColor: '#05BFDB' },
+                    '&.Mui-focused fieldset': { borderColor: '#05BFDB' },
+                  },
+                  '& input::placeholder': { color: 'rgba(255, 255, 255, 0.62)', opacity: 1 },
                 }}
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                sx={{ bgcolor: '#05BFDB', color: '#063B50', fontWeight: 700, '&:hover': { bgcolor: '#04A8C1' } }}
               >
-                © 2026 ChasquiFly. Todos los derechos reservados.
-              </Typography>
-            </Stack>
-          </Grid>
-
-          {/* Links Column 1: Compañía */}
-          <Grid item xs={6} sm={4} md={2.5}>
-            <Typography variant="h6" sx={{ color: '#FFFFFF', fontWeight: 700, mb: 2 }}>
-              Compañía
-            </Typography>
-            <Stack spacing={1.5}>
-              {['Sobre nosotros', 'Socios', 'Prensa'].map((link) => (
-                <Link
-                  key={link}
-                  href="#"
-                  underline="hover"
-                  sx={{
-                    color: 'text.disabled',
-                    fontSize: '0.875rem',
-                    transition: 'color 0.2s ease',
-                    '&:hover': { color: '#FFFFFF' },
-                  }}
-                >
-                  {link}
-                </Link>
-              ))}
-            </Stack>
-          </Grid>
-
-          {/* Links Column 2: Soporte */}
-          <Grid item xs={6} sm={4} md={2.5}>
-            <Typography variant="h6" sx={{ color: '#FFFFFF', fontWeight: 700, mb: 2 }}>
-              Soporte
-            </Typography>
-            <Stack spacing={1.5}>
-              {['Centro de Ayuda', 'Reclamaciones', 'Contacto'].map((link) => (
-                <Link
-                  key={link}
-                  href="#"
-                  underline="hover"
-                  sx={{
-                    color: 'text.disabled',
-                    fontSize: '0.875rem',
-                    transition: 'color 0.2s ease',
-                    '&:hover': { color: '#FFFFFF' },
-                  }}
-                >
-                  {link}
-                </Link>
-              ))}
-            </Stack>
-          </Grid>
-
-          {/* Links Column 3: Legal */}
-          <Grid item xs={6} sm={4} md={2.5}>
-            <Typography variant="h6" sx={{ color: '#FFFFFF', fontWeight: 700, mb: 2 }}>
-              Legal
-            </Typography>
-            <Stack spacing={1.5}>
-              {['Privacidad', 'Términos', 'Cookies'].map((link) => (
-                <Link
-                  key={link}
-                  href="#"
-                  underline="hover"
-                  sx={{
-                    color: 'text.disabled',
-                    fontSize: '0.875rem',
-                    transition: 'color 0.2s ease',
-                    '&:hover': { color: '#FFFFFF' },
-                  }}
-                >
-                  {link}
-                </Link>
-              ))}
+                Suscribirse
+              </Button>
             </Stack>
           </Grid>
         </Grid>
 
-        {/* Sub-footer Section */}
-        <Box
-          sx={{
-            mt: { xs: 6, md: 8 },
-            pt: 3,
-            borderTop: '1px solid rgba(226, 219, 215, 0.15)',
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 2,
-          }}
-        >
-          <Typography variant="body2" sx={{ color: 'text.disabled', fontSize: '0.875rem' }}>
-            Tu viaje, siempre en ruta.
+        <Box sx={{ mt: { xs: 5, md: 7 }, pt: 3, borderTop: '1px solid rgba(255, 255, 255, 0.18)' }}>
+          <Typography variant="body2" align="center" sx={{ color: 'rgba(255, 255, 255, 0.65)' }}>
+            © 2026 FlightTracker Inc. Todos los derechos reservados.
           </Typography>
-
-          {/* Social Icons */}
-          <Stack direction="row" spacing={1.5}>
-            {/* Facebook Icon */}
-            <IconButton
-              size="small"
-              sx={{
-                color: 'text.disabled',
-                '&:hover': { color: '#FFFFFF', bgcolor: 'rgba(255, 255, 255, 0.08)' },
-              }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-              </svg>
-            </IconButton>
-
-            {/* Instagram Icon */}
-            <IconButton
-              size="small"
-              sx={{
-                color: 'text.disabled',
-                '&:hover': { color: '#FFFFFF', bgcolor: 'rgba(255, 255, 255, 0.08)' },
-              }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-              </svg>
-            </IconButton>
-
-            {/* Twitter / X Icon */}
-            <IconButton
-              size="small"
-              sx={{
-                color: 'text.disabled',
-                '&:hover': { color: '#FFFFFF', bgcolor: 'rgba(255, 255, 255, 0.08)' },
-              }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-              </svg>
-            </IconButton>
-          </Stack>
         </Box>
       </Container>
     </Box>

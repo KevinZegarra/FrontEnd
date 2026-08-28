@@ -1,244 +1,204 @@
 import React, { useState } from 'react';
 import {
   AppBar,
-  Toolbar,
   Box,
-  Typography,
   Button,
-  IconButton,
+  Container,
   Drawer,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemText,
-  Container,
   Stack,
-  useTheme,
+  Toolbar,
+  Typography,
   useMediaQuery,
+  useTheme,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+import MenuIcon from '@mui/icons-material/Menu';
+import { NavLink } from 'react-router-dom';
 
 export interface HeaderProps {
   onLoginClick?: () => void;
   activeRoute?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  onLoginClick,
-  activeRoute = 'inicio',
-}) => {
+const navItems = [
+  { label: 'Inicio', to: '/' },
+  { label: 'Comparar Vuelos', to: '/compare' },
+  { label: 'Estado de Vuelos', to: '/status' },
+  { label: 'Live Tracker', to: '/tracker' },
+];
+
+export const Header: React.FC<HeaderProps> = ({ onLoginClick }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  const closeDrawer = () => setMobileOpen(false);
 
-  const navItems = [
-    { label: 'Inicio', id: 'inicio', href: '#' },
-    { label: 'Buscar vuelos', id: 'buscar', href: '#buscar' },
-    { label: 'Mis vuelos', id: 'trips', href: '#trips' },
-    { label: 'Ayuda', id: 'ayuda', href: '#ayuda' },
-  ];
+  const linkStyles = ({ isActive }: { isActive: boolean }) => ({
+    color: isActive ? '#05BFDB' : '#FFFFFF',
+    fontWeight: isActive ? 700 : 500,
+  });
 
   return (
-    <AppBar
-      position="sticky"
-      color="inherit"
-      elevation={0}
-      sx={{
-        bgcolor: 'background.paper',
-        borderBottom: 1,
-        borderColor: 'divider',
-      }}
-    >
+    <AppBar position="sticky" color="primary" elevation={2} sx={{ bgcolor: '#0A4D68' }}>
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
           sx={{
             minHeight: { xs: 68, md: 80 },
             justifyContent: 'space-between',
-            alignItems: 'center',
             px: { xs: 2, sm: 4, lg: 8 },
           }}
         >
-          {/* Logo & Navigation Links */}
-          <Stack direction="row" spacing={{ xs: 2, lg: 4 }} alignItems="center">
-            {/* Brand Logo */}
+          <Stack direction="row" spacing={{ xs: 2, lg: 5 }} alignItems="center">
             <Box
-              component="a"
-              href="#"
+              component={NavLink}
+              to="/"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                textDecoration: 'none',
                 gap: 1,
+                color: '#FFFFFF',
+                textDecoration: 'none',
               }}
             >
-              <Box
-                sx={{
-                  width: 38,
-                  height: 38,
-                  bgcolor: 'primary.main',
-                  borderRadius: 'shape.borderRadius',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'primary.contrastText',
-                }}
-              >
-                {/* Airplane Icon SVG */}
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z"/>
-                </svg>
-              </Box>
+              <FlightTakeoffIcon sx={{ fontSize: { xs: 30, md: 34 } }} />
               <Typography
-                variant="h3"
-                sx={{
-                  fontSize: { xs: '1.25rem', md: '1.4rem' },
-                  fontWeight: 800,
-                  color: 'secondary.main',
-                  letterSpacing: '-0.02em',
-                }}
+                variant="h6"
+                sx={{ fontSize: { xs: '1.15rem', md: '1.35rem' }, fontWeight: 800, color: '#FFFFFF' }}
               >
-                Chasqui<Box component="span" sx={{ color: 'primary.main' }}>Fly</Box>
+                FlightTracker
               </Typography>
             </Box>
 
-            {/* Desktop Navigation */}
             {!isMobile && (
-              <Stack direction="row" spacing={3} sx={{ ml: 2 }}>
-                {navItems.map((item) => {
-                  const isActive = activeRoute === item.id;
-                  return (
-                    <Typography
-                      key={item.id}
-                      component="a"
-                      href={item.href}
-                      sx={{
-                        textDecoration: 'none',
-                        fontSize: '0.875rem',
-                        fontWeight: isActive ? 600 : 500,
-                        color: isActive ? 'primary.main' : 'text.secondary',
-                        position: 'relative',
-                        transition: 'color 0.2s ease',
-                        '&:hover': {
-                          color: 'primary.main',
-                        },
-                      }}
-                    >
-                      {item.label}
-                    </Typography>
-                  );
-                })}
+              <Stack direction="row" spacing={{ md: 2, lg: 3 }}>
+                {navItems.map((item) => (
+                  <Box
+                    key={item.label}
+                    component={NavLink}
+                    to={item.to}
+                    style={linkStyles}
+                    sx={{
+                      py: 1,
+                      textDecoration: 'none',
+                      fontSize: { md: '0.8rem', lg: '0.875rem' },
+                      '&:hover': { color: '#05BFDB' },
+                    }}
+                  >
+                    {item.label}
+                  </Box>
+                ))}
               </Stack>
             )}
           </Stack>
 
-          {/* Action Button / Mobile Menu Toggle */}
-          <Stack direction="row" spacing={2} alignItems="center">
+          <Stack direction="row" spacing={1.5} alignItems="center">
             <Button
-              variant="contained"
-              color="primary"
+              component={NavLink}
+              to="/login"
+              variant="text"
               onClick={onLoginClick}
               sx={{
                 display: { xs: 'none', sm: 'inline-flex' },
-                px: 2.5,
-                py: 1,
-                fontSize: '0.875rem',
+                color: '#FFFFFF',
                 fontWeight: 600,
+                '&:hover': { color: '#05BFDB', bgcolor: 'rgba(5, 191, 219, 0.1)' },
               }}
             >
-              Iniciar sesión
+              Iniciar Sesión
             </Button>
-
-            {/* Mobile Hamburger Button */}
+            <Button
+              component={NavLink}
+              to="/register"
+              variant="contained"
+              sx={{
+                display: { xs: 'none', sm: 'inline-flex' },
+                bgcolor: '#05BFDB',
+                color: '#063B50',
+                fontWeight: 700,
+                '&:hover': { bgcolor: '#04A8C1' },
+              }}
+            >
+              Registrarse
+            </Button>
             {isMobile && (
               <IconButton
-                color="inherit"
-                aria-label="Abrir menú"
                 edge="end"
-                onClick={handleDrawerToggle}
-                sx={{ color: 'secondary.main' }}
+                aria-label="Abrir menú"
+                onClick={() => setMobileOpen(true)}
+                sx={{ color: '#FFFFFF' }}
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="3" y1="12" x2="21" y2="12"></line>
-                  <line x1="3" y1="6" x2="21" y2="6"></line>
-                  <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
+                <MenuIcon />
               </IconButton>
             )}
           </Stack>
         </Toolbar>
       </Container>
 
-      {/* Mobile Drawer */}
       <Drawer
         anchor="right"
         open={mobileOpen}
-        onClose={handleDrawerToggle}
+        onClose={closeDrawer}
         ModalProps={{ keepMounted: true }}
-        PaperProps={{
-          sx: {
-            width: 280,
-            bgcolor: 'background.paper',
-            p: 2,
-          },
-        }}
+        PaperProps={{ sx: { width: { xs: 'min(280px, 88vw)', sm: 320 }, p: 2 } }}
       >
-        <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 800, color: 'secondary.main' }}>
-            Chasqui<Box component="span" sx={{ color: 'primary.main' }}>Fly</Box>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 3 }}>
+          <Typography variant="h6" sx={{ color: '#0A4D68', fontWeight: 800 }}>
+            FlightTracker
           </Typography>
-          <IconButton onClick={handleDrawerToggle} sx={{ color: 'text.secondary' }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+          <IconButton aria-label="Cerrar menú" onClick={closeDrawer}>
+            <CloseIcon />
           </IconButton>
-        </Box>
+        </Stack>
 
         <List>
-          {navItems.map((item) => {
-            const isActive = activeRoute === item.id;
-            return (
-              <ListItem key={item.id} disablePadding sx={{ mb: 1 }}>
-                <ListItemButton
-                  component="a"
-                  href={item.href}
-                  onClick={handleDrawerToggle}
-                  sx={{
-                    borderRadius: 1,
-                    bgcolor: isActive ? 'soft.primary' : 'transparent',
-                    color: isActive ? 'primary.main' : 'text.primary',
-                  }}
-                >
-                  <ListItemText
-                    primary={item.label}
-                    primaryTypographyProps={{
-                      fontWeight: isActive ? 700 : 500,
-                      fontSize: '0.95rem',
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
+          {navItems.map((item) => (
+            <ListItem key={item.label} disablePadding sx={{ mb: 1 }}>
+              <ListItemButton
+                component={NavLink}
+                to={item.to}
+                onClick={closeDrawer}
+                sx={{
+                  borderRadius: 1,
+                  color: 'text.primary',
+                  '&.active': { bgcolor: 'rgba(5, 191, 219, 0.12)', color: '#05BFDB' },
+                }}
+              >
+                <ListItemText primary={item.label} primaryTypographyProps={{ fontWeight: 600 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
 
-        <Box sx={{ mt: 3, pt: 2, borderTop: 1, borderColor: 'divider' }}>
+        <Stack spacing={1} sx={{ mt: 3, pt: 2, borderTop: 1, borderColor: 'divider' }}>
           <Button
-            variant="contained"
-            color="primary"
+            component={NavLink}
+            to="/login"
+            variant="text"
             fullWidth
-            onClick={() => {
-              handleDrawerToggle();
-              onLoginClick?.();
-            }}
+            onClick={closeDrawer}
+            sx={{ color: '#0A4D68', fontWeight: 700 }}
           >
-            Iniciar sesión
+            Iniciar Sesión
           </Button>
-        </Box>
+          <Button
+            component={NavLink}
+            to="/register"
+            variant="contained"
+            fullWidth
+            onClick={closeDrawer}
+            sx={{ bgcolor: '#05BFDB', color: '#063B50', fontWeight: 700, '&:hover': { bgcolor: '#04A8C1' } }}
+          >
+            Registrarse
+          </Button>
+        </Stack>
       </Drawer>
     </AppBar>
   );

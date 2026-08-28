@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import theme from './theme';
+import MainLayout from './components/layout/MainLayout';
 
 // Importación de Páginas de los Módulos
 import Home from './modules/home/pages/Home';
@@ -30,6 +31,7 @@ export const App: React.FC = () => {
         <CssBaseline />
         <BrowserRouter>
           <Routes>
+            <Route element={<MainLayout />}>
             {/* 1. Página Principal (Hero, Buscador, Destinos, Banner IA) */}
             <Route path="/" element={<Home />} />
 
@@ -49,6 +51,8 @@ export const App: React.FC = () => {
 
             {/* 6. Autenticación */}
             <Route path="/login" element={<LoginPage />} />
+
+            </Route>
 
             {/* Redirección por defecto para rutas no encontradas */}
             <Route path="*" element={<Navigate to="/" replace />} />

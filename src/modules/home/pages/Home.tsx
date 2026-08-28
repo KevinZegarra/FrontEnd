@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import Header from '../../../components/layout/Header';
-import Footer from '../../../components/layout/Footer';
 import HeroSearch from '../components/HeroSearch';
 import PopularDestinations from '../components/PopularDestinations';
 import AiFlightComparison from '../components/AiFlightComparison';
@@ -64,10 +62,7 @@ export const Home: React.FC = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
-      {/* 1. Header Global */}
-      <Header onLoginClick={handleLoginClick} activeRoute="inicio" />
-
-      {/* 2. Hero con Buscador Integrado */}
+      {/* Hero con Buscador Integrado */}
       <Box component="main" sx={{ flexGrow: 1 }}>
         <HeroSearch onSearch={handleSearch} />
 
@@ -90,8 +85,6 @@ export const Home: React.FC = () => {
         />
       </Box>
 
-      {/* 6. Footer Global */}
-      <Footer />
     </Box>
   );
 };

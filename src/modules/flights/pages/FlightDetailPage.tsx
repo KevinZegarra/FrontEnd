@@ -9,8 +9,6 @@ import {
   Link,
   Skeleton,
 } from '@mui/material';
-import Header from '../../../components/layout/Header';
-import Footer from '../../../components/layout/Footer';
 import FlightDetailHeader from '../components/FlightDetailHeader';
 import FlightAmenitiesAndPolicies from '../components/FlightAmenitiesAndPolicies';
 import FareSummary from '../components/FareSummary';
@@ -73,10 +71,7 @@ export const FlightDetailPage: React.FC<FlightDetailPageProps> = ({
 
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
-      {/* 1. Header Global */}
-      <Header activeRoute="buscar" />
-
-      {/* 2. Contenido Principal */}
+      {/* Contenido Principal */}
       <Box component="main" sx={{ flexGrow: 1, py: { xs: 3, md: 5 }, px: { xs: 2, sm: 4, lg: 8 } }}>
         <Container maxWidth="xl" disableGutters>
           {/* Breadcrumbs de Navegación */}
@@ -159,8 +154,6 @@ export const FlightDetailPage: React.FC<FlightDetailPageProps> = ({
         </Container>
       </Box>
 
-      {/* 3. Footer Global */}
-      <Footer />
     </Box>
   );
 };
