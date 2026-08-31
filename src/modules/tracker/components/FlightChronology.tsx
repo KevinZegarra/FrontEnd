@@ -17,11 +17,10 @@ export const FlightChronology: React.FC<FlightChronologyProps> = ({ events }) =>
       elevation={0}
       sx={{
         width: '100%',
-        p: { xs: 2.5, sm: 3.5, md: 4 },
+        p: { xs: 3, sm: 4 },
         bgcolor: 'background.paper',
-        borderRadius: 4,
-        border: 1,
-        borderColor: 'divider',
+        borderRadius: '16px',
+        border: '1px solid #E2DBD7',
         boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
       }}
     >
@@ -29,40 +28,48 @@ export const FlightChronology: React.FC<FlightChronologyProps> = ({ events }) =>
         <Typography
           variant="h3"
           sx={{
-            color: 'secondary.main',
+            color: '#1B2A4A',
             fontWeight: 800,
-            fontSize: { xs: '1.1rem', md: '1.2rem' },
+            fontSize: '18px',
           }}
         >
           Historial y Cronología del Vuelo
         </Typography>
 
         {/* Vertical Timeline List */}
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
           {events.map((event, index) => {
             const isLast = index === events.length - 1;
             const isCurrent = event.status === 'current';
             const isUpcoming = event.status === 'upcoming';
 
             return (
-              <Stack
+              <Box
                 key={event.id}
-                direction="row"
-                alignItems="flex-start"
-                sx={{ position: 'relative', pb: isLast ? 0 : 2.5 }}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'stretch',
+                  minHeight: isLast ? 'auto' : 58,
+                }}
               >
                 {/* 1. Columna Hora */}
-                <Box sx={{ width: { xs: 70, sm: 90 }, flexShrink: 0, pt: 0.25 }}>
+                <Box
+                  sx={{
+                    width: { xs: 65, sm: 90 },
+                    flexShrink: 0,
+                    pt: '1px',
+                  }}
+                >
                   <Typography
-                    variant="body2"
                     sx={{
-                      fontWeight: isCurrent ? 700 : 600,
+                      fontSize: '14px',
+                      fontFamily: 'Inter',
+                      fontWeight: isCurrent ? 700 : isUpcoming ? 500 : 600,
                       color: isCurrent
-                        ? 'success.main'
+                        ? '#10B981'
                         : isUpcoming
-                        ? 'text.disabled'
-                        : 'text.secondary',
-                      fontSize: '0.875rem',
+                        ? '#9E9490'
+                        : '#6B615E',
                     }}
                   >
                     {event.time}
@@ -72,7 +79,7 @@ export const FlightChronology: React.FC<FlightChronologyProps> = ({ events }) =>
                 {/* 2. Columna Timeline Node & Connector Line */}
                 <Box
                   sx={{
-                    width: 32,
+                    width: 36,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -86,11 +93,10 @@ export const FlightChronology: React.FC<FlightChronologyProps> = ({ events }) =>
                       sx={{
                         width: 14,
                         height: 14,
-                        bgcolor: 'success.main',
-                        borderRadius: '50%',
-                        border: 3,
-                        borderColor: 'soft.success',
-                        boxShadow: '0 0 0 2px rgba(16, 185, 129, 0.3)',
+                        bgcolor: '#10B981',
+                        borderRadius: '9999px',
+                        border: '3px solid #DCFCE7',
+                        flexShrink: 0,
                         zIndex: 2,
                       }}
                     />
@@ -99,9 +105,10 @@ export const FlightChronology: React.FC<FlightChronologyProps> = ({ events }) =>
                       sx={{
                         width: 10,
                         height: 10,
-                        bgcolor: 'text.disabled',
-                        borderRadius: '50%',
-                        mt: 0.5,
+                        bgcolor: '#D0C7C2',
+                        borderRadius: '9999px',
+                        flexShrink: 0,
+                        mt: '2px',
                         zIndex: 2,
                       }}
                     />
@@ -110,59 +117,66 @@ export const FlightChronology: React.FC<FlightChronologyProps> = ({ events }) =>
                       sx={{
                         width: 10,
                         height: 10,
-                        bgcolor: 'primary.main',
-                        borderRadius: '50%',
-                        mt: 0.5,
+                        bgcolor: '#A01B2D',
+                        borderRadius: '9999px',
+                        flexShrink: 0,
+                        mt: '2px',
                         zIndex: 2,
                       }}
                     />
                   )}
 
-                  {/* Connecting Line */}
+                  {/* Línea Conectora Continua */}
                   {!isLast && (
                     <Box
                       sx={{
-                        position: 'absolute',
-                        top: 14,
-                        bottom: -10,
-                        width: 2,
-                        bgcolor: 'divider',
-                        zIndex: 1,
+                        width: '2px',
+                        flexGrow: 1,
+                        bgcolor: '#E2DBD7',
+                        my: '2px',
                       }}
                     />
                   )}
                 </Box>
 
                 {/* 3. Columna Descripción del Evento */}
-                <Box sx={{ flex: 1, pl: 1, pt: 0.1 }}>
+                <Box
+                  sx={{
+                    flex: 1,
+                    pl: 1.5,
+                    pb: isLast ? 0 : 2.5,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '2px',
+                  }}
+                >
                   <Typography
-                    variant="body2"
                     sx={{
-                      fontWeight: isCurrent ? 700 : 600,
+                      fontSize: '14px',
+                      fontFamily: 'Inter',
+                      fontWeight: isCurrent ? 700 : isUpcoming ? 500 : 600,
                       color: isCurrent
-                        ? 'success.main'
+                        ? '#10B981'
                         : isUpcoming
-                        ? 'text.disabled'
-                        : 'secondary.main',
-                      fontSize: '0.925rem',
+                        ? '#9E9490'
+                        : '#1B2A4A',
                     }}
                   >
                     {event.title}
                   </Typography>
                   <Typography
-                    variant="caption"
                     sx={{
-                      color: isUpcoming ? 'text.disabled' : 'text.secondary',
-                      fontSize: '0.8125rem',
-                      display: 'block',
-                      mt: 0.25,
+                      fontSize: '13px',
+                      fontFamily: 'Inter',
+                      fontWeight: 400,
+                      color: isUpcoming ? '#9E9490' : '#6B615E',
                       lineHeight: 1.45,
                     }}
                   >
                     {event.description}
                   </Typography>
                 </Box>
-              </Stack>
+              </Box>
             );
           })}
         </Box>

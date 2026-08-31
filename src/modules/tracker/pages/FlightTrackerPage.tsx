@@ -87,11 +87,11 @@ export const FlightTrackerPage: React.FC = () => {
 
                 {/* Grid Superior: Barra de Progreso y Ficha Técnica */}
                 <Grid container spacing={3.5} alignItems="stretch">
-                  <Grid item xs={12} lg={7.5} xl={8}>
+                  <Grid item xs={12} lg={7.5} xl={8} sx={{ display: 'flex' }}>
                     <FlightTimelineProgressBar flight={flightData} />
                   </Grid>
 
-                  <Grid item xs={12} lg={4.5} xl={4}>
+                  <Grid item xs={12} lg={4.5} xl={4} sx={{ display: 'flex' }}>
                     <FlightLiveInfoCard flight={flightData} />
                   </Grid>
                 </Grid>
