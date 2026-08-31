@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import HeroSearch from '../components/HeroSearch';
+import HeroSection from '../components/HeroSection';
 import PopularDestinations from '../components/PopularDestinations';
 import AiFlightComparison from '../components/AiFlightComparison';
 import PromoBanner from '../components/PromoBanner';
@@ -64,7 +64,7 @@ export const Home: React.FC = () => {
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
       {/* Hero con Buscador Integrado */}
       <Box component="main" sx={{ flexGrow: 1 }}>
-        <HeroSearch onSearch={handleSearch} />
+        <HeroSection onSearch={handleSearch} />
 
         {/* 3. Sección A: Destinos Populares */}
         <PopularDestinations
