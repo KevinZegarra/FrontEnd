@@ -85,16 +85,24 @@ export const FlightTrackerPage: React.FC = () => {
                 {/* Banner de Estado en Vivo */}
                 <FlightStatusBanner flight={flightData} />
 
-                {/* Grid Superior: Barra de Progreso y Ficha Técnica */}
-                <Grid container spacing={3.5} alignItems="stretch">
-                  <Grid item xs={12} lg={7.5} xl={8} sx={{ display: 'flex' }}>
+                {/* Fila Superior: Barra de Progreso (Flex 1) y Ficha Técnica (440px fija en desktop) */}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: { xs: 'column', lg: 'row' },
+                    alignItems: 'stretch',
+                    gap: 4,
+                    width: '100%',
+                  }}
+                >
+                  <Box sx={{ flex: '1 1 0', display: 'flex', width: '100%', minWidth: 0 }}>
                     <FlightTimelineProgressBar flight={flightData} />
-                  </Grid>
+                  </Box>
 
-                  <Grid item xs={12} lg={4.5} xl={4} sx={{ display: 'flex' }}>
+                  <Box sx={{ width: { xs: '100%', lg: 440 }, flexShrink: 0, display: 'flex' }}>
                     <FlightLiveInfoCard flight={flightData} />
-                  </Grid>
-                </Grid>
+                  </Box>
+                </Box>
 
                 {/* Cronología e Historial de Eventos */}
                 <FlightChronology events={flightData.chronology} />
