@@ -8,6 +8,8 @@ import {
   Grid,
 } from '@mui/material';
 
+import { trackerService } from '../../../services/trackerService';
+
 export interface NotificationSettings {
   notifyStatusChanges: boolean;
   notifyDelays: boolean;
@@ -29,13 +31,23 @@ export const FlightNotificationToggles: React.FC<FlightNotificationTogglesProps>
 }) => {
   const [settings, setSettings] = useState<NotificationSettings>(initialSettings);
 
-  const handleToggle = (key: keyof NotificationSettings) => {
+  const handleToggle = async (key: keyof NotificationSettings) => {
     const updated = {
       ...settings,
       [key]: !settings[key],
     };
     setSettings(updated);
     onChange?.(updated);
+
+    try {
+      await trackerService.configureAlerts({
+        notifyStatusChanges: updated.notifyStatusChanges,
+        notifyDelays: updated.notifyDelays,
+        notifyArrival: updated.notifyArrival,
+      });
+    } catch (error) {
+      console.error('Error al actualizar configuración de alertas:', error);
+    }
   };
 
   const notificationOptions = [
