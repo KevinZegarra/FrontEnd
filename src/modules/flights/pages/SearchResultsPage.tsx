@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Container,
@@ -24,6 +25,7 @@ import {
 } from '../../../types/flight.types';
 
 export const SearchResultsPage: React.FC = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState<SearchQueryParams | undefined>(undefined);
   const [flights, setFlights] = useState<FlightItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -70,7 +72,16 @@ export const SearchResultsPage: React.FC = () => {
   };
 
   const handleFlightDetailsClick = (flight: FlightItem) => {
-    console.log('Detalles del vuelo seleccionado:', flight.flightNumber, flight.airline.name);
+    navigate(`/flights/${flight.id}`);
+  };
+
+  const handleResetFilters = () => {
+    setFilters({
+      stops: [],
+      priceRange: [80, 500],
+      airlines: [],
+      departureTimes: [],
+    });
   };
 
   return (
@@ -78,20 +89,41 @@ export const SearchResultsPage: React.FC = () => {
       {/* Barra de Resumen de Búsqueda */}
       <SearchSummaryBar
         searchParams={searchParams}
-        onEditSearchClick={() => console.log('Editar búsqueda')}
+        onEditSearchClick={() => navigate('/')}
       />
 
       {/* Contenedor Principal: Filtros + Resultados */}
       <Box component="main" sx={{ flexGrow: 1, py: { xs: 3, md: 4 }, px: { xs: 2, sm: 4, lg: 6 } }}>
         <Container maxWidth="xl" disableGutters>
+          {/* Botón de Filtros para vista Móvil */}
           <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 2.5 }}>
             <Button
               variant="outlined"
               fullWidth
               onClick={() => setMobileFilterOpen(true)}
-              sx={{ bgcolor: 'background.paper', borderColor: 'divider', color: 'secondary.main', fontWeight: 600 }}
+              startIcon={
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="4" y1="21" x2="4" y2="14"></line>
+                  <line x1="4" y1="10" x2="4" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12" y2="3"></line>
+                  <line x1="20" y1="21" x2="20" y2="16"></line>
+                  <line x1="20" y1="12" x2="20" y2="3"></line>
+                  <line x1="1" y1="14" x2="7" y2="14"></line>
+                  <line x1="9" y1="8" x2="15" y2="8"></line>
+                  <line x1="17" y1="16" x2="23" y2="16"></line>
+                </svg>
+              }
+              sx={{
+                bgcolor: 'background.paper',
+                borderColor: 'divider',
+                color: 'secondary.main',
+                fontWeight: 700,
+                py: 1.2,
+                borderRadius: 2,
+              }}
             >
-              Mostrar Filtros
+              Filtros de Búsqueda {(filters.stops.length > 0 || filters.airlines.length > 0 || filters.departureTimes.length > 0) && '• Activos'}
             </Button>
           </Box>
 
@@ -121,6 +153,7 @@ export const SearchResultsPage: React.FC = () => {
                     justifyContent: 'space-between',
                     alignItems: { xs: 'flex-start', sm: 'center' },
                     gap: 1.5,
+                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.03)',
                   }}
                 >
                   <Stack direction="row" spacing={1} alignItems="center">
@@ -185,7 +218,7 @@ export const SearchResultsPage: React.FC = () => {
                   </Stack>
                 </Paper>
 
-                {/* Listado de Tarjetas de Vuelo con Skeletons */}
+                {/* Listado de Tarjetas de Vuelo */}
                 {isLoading ? (
                   Array.from(new Array(4)).map((_, i) => (
                     <Paper
@@ -225,6 +258,53 @@ export const SearchResultsPage: React.FC = () => {
                       </Grid>
                     </Paper>
                   ))
+                ) : flights.length === 0 ? (
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: { xs: 5, md: 8 },
+                      textAlign: 'center',
+                      borderRadius: 3,
+                      border: 1,
+                      borderColor: 'divider',
+                      bgcolor: 'background.paper',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: 64,
+                        height: 64,
+                        borderRadius: '50%',
+                        bgcolor: 'soft.primary',
+                        color: 'primary.main',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        mx: 'auto',
+                        mb: 2,
+                      }}
+                    >
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                      </svg>
+                    </Box>
+                    <Typography variant="h3" sx={{ color: 'secondary.main', fontWeight: 800, mb: 1, fontSize: '1.25rem' }}>
+                      No encontramos vuelos con esos filtros
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', maxWidth: 450, mx: 'auto', mb: 3 }}>
+                      Prueba ampliando el rango de precios, seleccionando más aerolíneas o eliminando los filtros aplicados.
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleResetFilters}
+                      sx={{ px: 3, py: 1, borderRadius: 2, fontWeight: 700 }}
+                    >
+                      Restablecer todos los filtros
+                    </Button>
+                  </Paper>
                 ) : (
                   flights.map((flight) => (
                     <FlightCard
@@ -245,11 +325,43 @@ export const SearchResultsPage: React.FC = () => {
         anchor="bottom"
         open={mobileFilterOpen}
         onClose={() => setMobileFilterOpen(false)}
+        PaperProps={{
+          sx: {
+            maxHeight: '85vh',
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            p: 3,
+            bgcolor: 'background.paper',
+            boxShadow: '0 -4px 30px rgba(0,0,0,0.15)',
+          },
+        }}
       >
-        <FilterSidebar
-          initialFilters={filters}
-          onFiltersChange={handleFiltersChange}
-        />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, color: 'secondary.main', fontSize: '1.25rem' }}>
+            Filtrar Vuelos
+          </Typography>
+          <IconButton onClick={() => setMobileFilterOpen(false)} size="small">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </IconButton>
+        </Box>
+        <Box sx={{ overflowY: 'auto', pr: 0.5, mb: 2 }}>
+          <FilterSidebar
+            initialFilters={filters}
+            onFiltersChange={handleFiltersChange}
+          />
+        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => setMobileFilterOpen(false)}
+          sx={{ py: 1.5, borderRadius: 2, fontWeight: 700, fontSize: '0.95rem' }}
+        >
+          Aplicar y Ver {flights.length} Vuelos
+        </Button>
       </Drawer>
     </Box>
   );
