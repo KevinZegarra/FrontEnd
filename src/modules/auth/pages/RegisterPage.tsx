@@ -9,48 +9,16 @@ import {
   Divider,
   Link,
 } from '@mui/material';
-import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 import SocialLoginButtons from '../components/SocialLoginButtons';
-import { AuthResponse } from '../../../types/auth.types';
 
-export interface LoginPageProps {
-  onLoginSuccess?: (authData: AuthResponse) => void;
-  onNavigateToRegister?: () => void;
-  onNavigateToForgotPassword?: () => void;
-}
-
-export const LoginPage: React.FC<LoginPageProps> = ({
-  onLoginSuccess,
-  onNavigateToRegister,
-  onNavigateToForgotPassword,
-}) => {
+export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleSuccess = (authData: AuthResponse) => {
-    console.log('Login exitoso:', authData.user.email);
-    if (onLoginSuccess) {
-      onLoginSuccess(authData);
-    } else {
-      navigate('/');
-    }
+  const handleSuccess = (userData: { userId: string; message: string }) => {
+    console.log('Registro exitoso:', userData);
+    navigate('/login');
   };
-
-  const handleGoToRegister = () => {
-    if (onNavigateToRegister) {
-      onNavigateToRegister();
-    } else {
-      navigate('/register');
-    }
-  };
-
-  const handleGoToForgotPassword = () => {
-    if (onNavigateToForgotPassword) {
-      onNavigateToForgotPassword();
-    } else {
-      navigate('/forgot-password');
-    }
-  };
-
 
   return (
     <Box
@@ -62,16 +30,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        py: { xs: 5, md: 10 },
+        py: { xs: 5, md: 8 },
         px: 2,
       }}
     >
-      <Container maxWidth="xs" disableGutters sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Container maxWidth="sm" disableGutters sx={{ display: 'flex', justifyContent: 'center' }}>
         <Paper
           elevation={0}
           sx={{
             width: '100%',
-            maxWidth: 480,
+            maxWidth: 520,
             p: { xs: 3, sm: 4.5, md: 5 },
             bgcolor: 'background.paper',
             borderRadius: 4,
@@ -81,11 +49,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           }}
         >
           <Stack spacing={3.5} alignItems="center">
-            {/* Logo & Header Title */}
+            {/* Logo & Encabezado */}
             <Stack spacing={1.5} alignItems="center" sx={{ textAlign: 'center' }}>
               <Box
-                component="a"
-                href="#"
+                component={RouterLink}
+                to="/"
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -116,54 +84,48 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               </Box>
 
               <Typography variant="h2" sx={{ color: 'secondary.main', fontWeight: 800, fontSize: { xs: '1.4rem', md: '1.6rem' } }}>
-                Iniciar sesión
+                Crea tu cuenta
               </Typography>
 
-              <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem', maxWidth: 320 }}>
-                Accede a tu cuenta para gestionar tus itinerarios, reservas y alertas.
+              <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem', maxWidth: 360 }}>
+                Únete a ChasquiFly para comparar tarifas de aerolíneas, seguir tus vuelos en vivo y recibir alertas inteligentes.
               </Typography>
             </Stack>
 
-            {/* Formulario React Hook Form + Zod */}
-            <LoginForm
-              onSuccess={handleSuccess}
-              onForgotPasswordClick={handleGoToForgotPassword}
+            {/* Social Logins */}
+            <SocialLoginButtons
+              onGoogleClick={() => console.log('Registrarse con Google')}
+              onAppleClick={() => console.log('Registrarse con Apple')}
             />
 
-            {/* Separador 'o continuar con' */}
+            {/* Separador */}
             <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', gap: 2 }}>
               <Divider sx={{ flexGrow: 1, borderColor: 'divider' }} />
               <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.8125rem' }}>
-                o continuar con
+                o regístrate con tu correo
               </Typography>
               <Divider sx={{ flexGrow: 1, borderColor: 'divider' }} />
             </Box>
 
-            {/* Social Logins */}
-            <SocialLoginButtons
-              onGoogleClick={() => console.log('Iniciar con Google')}
-              onAppleClick={() => console.log('Iniciar con Apple')}
-            />
+            {/* Formulario de Registro */}
+            <RegisterForm onSuccess={handleSuccess} />
 
-            {/* Link a Registro */}
+            {/* Link a Login */}
             <Stack direction="row" spacing={0.5} justifyContent="center" alignItems="center">
               <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
-                ¿No tienes una cuenta?
+                ¿Ya tienes una cuenta?
               </Typography>
               <Link
-                component="button"
-                type="button"
+                component={RouterLink}
+                to="/login"
                 underline="hover"
-                onClick={handleGoToRegister}
                 sx={{
                   color: 'primary.main',
                   fontSize: '0.875rem',
                   fontWeight: 600,
-                  fontFamily: 'inherit',
-                  cursor: 'pointer',
                 }}
               >
-                Regístrate
+                Inicia sesión
               </Link>
             </Stack>
           </Stack>
@@ -173,4 +135,4 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
