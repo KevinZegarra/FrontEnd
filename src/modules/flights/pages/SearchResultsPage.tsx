@@ -10,6 +10,7 @@ import {
   Drawer,
   IconButton,
   Skeleton,
+  Chip,
 } from '@mui/material';
 import SearchSummaryBar from '../components/SearchSummaryBar';
 import FilterSidebar from '../components/FilterSidebar';
@@ -28,10 +29,10 @@ export const SearchResultsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [sortBy, setSortBy] = useState<SortOption>('PRICE_ASC');
   const [filters, setFilters] = useState<FlightFilterState>({
-    stops: [0],
+    stops: [],
     priceRange: [80, 500],
-    airlines: ['LATAM', 'Sky Airline'],
-    departureTimes: ['AFTERNOON'],
+    airlines: [],
+    departureTimes: [],
   });
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
@@ -80,28 +81,14 @@ export const SearchResultsPage: React.FC = () => {
         onEditSearchClick={() => console.log('Editar búsqueda')}
       />
 
-      {/* 3. Contenedor Principal: Filtros + Resultados */}
-      <Box component="main" sx={{ flexGrow: 1, py: { xs: 3, md: 5 }, px: { xs: 2, sm: 4, lg: 8 } }}>
+      {/* Contenedor Principal: Filtros + Resultados */}
+      <Box component="main" sx={{ flexGrow: 1, py: { xs: 3, md: 4 }, px: { xs: 2, sm: 4, lg: 6 } }}>
         <Container maxWidth="xl" disableGutters>
-          {/* Botón de Filtros para vista Móvil */}
-          <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 2 }}>
+          <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 2.5 }}>
             <Button
               variant="outlined"
               fullWidth
               onClick={() => setMobileFilterOpen(true)}
-              startIcon={
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="4" y1="21" x2="4" y2="14"></line>
-                  <line x1="4" y1="10" x2="4" y2="3"></line>
-                  <line x1="12" y1="21" x2="12" y2="12"></line>
-                  <line x1="12" y1="8" x2="12" y2="3"></line>
-                  <line x1="20" y1="21" x2="20" y2="16"></line>
-                  <line x1="20" y1="12" x2="20" y2="3"></line>
-                  <line x1="1" y1="14" x2="7" y2="14"></line>
-                  <line x1="9" y1="8" x2="15" y2="8"></line>
-                  <line x1="17" y1="16" x2="23" y2="16"></line>
-                </svg>
-              }
               sx={{ bgcolor: 'background.paper', borderColor: 'divider', color: 'secondary.main', fontWeight: 600 }}
             >
               Mostrar Filtros
@@ -110,7 +97,7 @@ export const SearchResultsPage: React.FC = () => {
 
           <Grid container spacing={{ xs: 3, lg: 4 }} alignItems="flex-start">
             {/* Panel Lateral de Filtros (Desktop) */}
-            <Grid item xs={12} md={4} lg={3} sx={{ display: { xs: 'none', md: 'block' } }}>
+            <Grid item xs={12} md={4} lg={3.2} xl={3} sx={{ display: { xs: 'none', md: 'block' } }}>
               <FilterSidebar
                 initialFilters={filters}
                 onFiltersChange={handleFiltersChange}
@@ -118,14 +105,14 @@ export const SearchResultsPage: React.FC = () => {
             </Grid>
 
             {/* Columna de Resultados */}
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={8} lg={8.8} xl={9}>
               <Stack spacing={2.5}>
                 {/* Barra de Ordenamiento y Cantidad de Resultados */}
                 <Paper
                   elevation={0}
                   sx={{
-                    p: 2,
-                    borderRadius: 2,
+                    p: { xs: 2, sm: 2.5 },
+                    borderRadius: 3,
                     bgcolor: 'background.paper',
                     border: 1,
                     borderColor: 'divider',
@@ -136,17 +123,33 @@ export const SearchResultsPage: React.FC = () => {
                     gap: 1.5,
                   }}
                 >
-                  <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
-                    Comparamos <strong>{flights.length}</strong> opciones para tu ruta:
-                  </Typography>
-
                   <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography variant="caption" sx={{ color: 'secondary.main', fontWeight: 600 }}>
-                      Ordenar por:
+                    <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
+                      Encontramos
+                    </Typography>
+                    <Chip
+                      label={`${flights.length} vuelos`}
+                      size="small"
+                      sx={{
+                        bgcolor: 'primary.light',
+                        color: 'primary.main',
+                        fontWeight: 700,
+                        fontSize: '0.8125rem',
+                        height: 24,
+                      }}
+                    />
+                    <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
+                      para tu ruta
+                    </Typography>
+                  </Stack>
+
+                  <Stack direction="row" spacing={1} alignItems="center" sx={{ flexWrap: 'wrap', gap: 0.5 }}>
+                    <Typography variant="caption" sx={{ color: 'secondary.main', fontWeight: 700, mr: 0.5 }}>
+                      Ordenar:
                     </Typography>
 
                     {[
-                      { label: 'Precio más bajo', val: 'PRICE_ASC' as SortOption },
+                      { label: 'Más económico', val: 'PRICE_ASC' as SortOption },
                       { label: 'Más rápido', val: 'DURATION_ASC' as SortOption },
                       { label: 'Mejor opción', val: 'BEST' as SortOption },
                     ].map((sortItem) => {
@@ -157,12 +160,12 @@ export const SearchResultsPage: React.FC = () => {
                           component="button"
                           onClick={() => setSortBy(sortItem.val)}
                           sx={{
-                            px: 1.5,
+                            px: 1.75,
                             py: 0.75,
-                            borderRadius: 1,
+                            borderRadius: 2,
                             border: 1,
-                            borderColor: isSelected ? 'primary.main' : 'transparent',
-                            bgcolor: isSelected ? 'customBackgrounds.appBase' : 'transparent',
+                            borderColor: isSelected ? 'primary.main' : 'divider',
+                            bgcolor: isSelected ? 'soft.primary' : 'background.paper',
                             color: isSelected ? 'primary.main' : 'text.secondary',
                             fontSize: '0.8125rem',
                             fontWeight: isSelected ? 700 : 500,
@@ -170,6 +173,7 @@ export const SearchResultsPage: React.FC = () => {
                             cursor: 'pointer',
                             transition: 'all 0.2s ease',
                             '&:hover': {
+                              borderColor: 'primary.main',
                               color: 'primary.main',
                             },
                           }}
@@ -181,26 +185,46 @@ export const SearchResultsPage: React.FC = () => {
                   </Stack>
                 </Paper>
 
-                {/* Listado de Tarjetas de Vuelo */}
+                {/* Listado de Tarjetas de Vuelo con Skeletons */}
                 {isLoading ? (
                   Array.from(new Array(4)).map((_, i) => (
-                    <Paper key={`skeleton-card-${i}`} sx={{ p: 3, borderRadius: 3 }}>
-                      <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={12} sm={3}><Skeleton height={40} /></Grid>
-                        <Grid item xs={12} sm={6}><Skeleton height={40} /></Grid>
-                        <Grid item xs={12} sm={3}><Skeleton height={40} /></Grid>
+                    <Paper
+                      key={`skeleton-card-${i}`}
+                      elevation={0}
+                      sx={{
+                        p: 3,
+                        borderRadius: 3,
+                        border: 1,
+                        borderColor: 'divider',
+                        bgcolor: 'background.paper',
+                      }}
+                    >
+                      <Grid container spacing={3} alignItems="center">
+                        <Grid item xs={12} sm={3}>
+                          <Stack direction="row" spacing={2} alignItems="center">
+                            <Skeleton variant="rounded" width={44} height={44} sx={{ borderRadius: 2 }} />
+                            <Box sx={{ flex: 1 }}>
+                              <Skeleton width="80%" height={24} />
+                              <Skeleton width="50%" height={18} />
+                            </Box>
+                          </Stack>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
+                            <Skeleton width={60} height={35} />
+                            <Skeleton width={120} height={20} />
+                            <Skeleton width={60} height={35} />
+                          </Stack>
+                        </Grid>
+                        <Grid item xs={12} sm={3}>
+                          <Stack direction="row" spacing={2} alignItems="center" justifyContent="flex-end">
+                            <Skeleton width={70} height={40} />
+                            <Skeleton variant="rounded" width={110} height={40} sx={{ borderRadius: 1.5 }} />
+                          </Stack>
+                        </Grid>
                       </Grid>
                     </Paper>
                   ))
-                ) : flights.length === 0 ? (
-                  <Paper sx={{ p: 6, textAlign: 'center', borderRadius: 3 }}>
-                    <Typography variant="h5" sx={{ color: 'secondary.main', fontWeight: 700, mb: 1 }}>
-                      No encontramos vuelos con esos filtros
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      Intenta ajustar el rango de precios o habilitar más aerolíneas.
-                    </Typography>
-                  </Paper>
                 ) : (
                   flights.map((flight) => (
                     <FlightCard
@@ -221,44 +245,12 @@ export const SearchResultsPage: React.FC = () => {
         anchor="bottom"
         open={mobileFilterOpen}
         onClose={() => setMobileFilterOpen(false)}
-        PaperProps={{
-          sx: {
-            maxHeight: '85vh',
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-            p: 2,
-            bgcolor: 'background.default',
-          },
-        }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Typography variant="h4" sx={{ fontWeight: 800, color: 'secondary.main' }}>
-            Filtros
-          </Typography>
-          <IconButton onClick={() => setMobileFilterOpen(false)}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </IconButton>
-        </Box>
         <FilterSidebar
           initialFilters={filters}
-          onFiltersChange={(newFilters) => {
-            handleFiltersChange(newFilters);
-          }}
+          onFiltersChange={handleFiltersChange}
         />
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          onClick={() => setMobileFilterOpen(false)}
-          sx={{ mt: 2 }}
-        >
-          Aplicar Filtros
-        </Button>
       </Drawer>
-
     </Box>
   );
 };
