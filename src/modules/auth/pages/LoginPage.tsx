@@ -56,12 +56,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       sx={{
         minHeight: "100vh",
         width: "100%",
-        bgcolor: "background.default",
+        // Imagen de machupicchu con degradado oscuro para legibilidad
+        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1526392060635-9d6019884377?q=80&w=1920&auto=format&fit=crop')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        py: { xs: 5, md: 10 },
+        py: { xs: 2, md: 3 },
         px: 2,
       }}
     >
@@ -75,15 +78,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           sx={{
             width: "100%",
             maxWidth: 480,
-            p: { xs: 3, sm: 4.5, md: 5 },
+            p: { xs: 2.5, sm: 3.5 },
             bgcolor: "background.paper",
             borderRadius: 4,
             border: 1,
             borderColor: "divider",
-            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.05)",
+            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.3)",
           }}
         >
-          <Stack spacing={3.5} alignItems="center">
+          <Stack spacing={2} alignItems="center">
             {/* Logo & Header Title */}
             <Stack
               spacing={1.5}
@@ -103,8 +106,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               >
                 <Box
                   sx={{
-                    width: 40,
-                    height: 40,
+                    width: 32,
+                    height: 32,
                     bgcolor: "primary.main",
                     borderRadius: 1.5,
                     display: "flex",
@@ -114,8 +117,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   }}
                 >
                   <svg
-                    width="22"
-                    height="22"
+                    width="18"
+                    height="18"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"

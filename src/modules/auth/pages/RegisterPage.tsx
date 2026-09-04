@@ -25,7 +25,10 @@ export const RegisterPage: React.FC = () => {
       sx={{
         minHeight: "100vh",
         width: "100%",
-        bgcolor: "background.default",
+        // Imagen con degradado oscuro para legibilidad
+        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.7)), url('https://upload.wikimedia.org/wikipedia/commons/d/d7/Vinicunca_o_monta%C3%B1a_7_colores.jpg')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
