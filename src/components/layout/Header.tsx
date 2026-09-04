@@ -56,12 +56,14 @@ export const Header: React.FC<HeaderProps> = ({ onLoginClick }) => {
             px: { xs: 2, sm: 4, lg: 8 },
           }}
         >
+
+
           <Stack direction="row" spacing={{ xs: 2, lg: 5 }} alignItems="center">
             <Box
               component={NavLink}
               to="/"
               sx={{
-                display: { xs: 'none', sm: 'flex' }, // Desaparece en pantallas extra pequeñas (xs)
+                display:'flex' , 
                 alignItems: 'center',
                 gap: 1,
                 color: '#8B0000',
@@ -71,7 +73,12 @@ export const Header: React.FC<HeaderProps> = ({ onLoginClick }) => {
               <FlightTakeoffIcon sx={{ fontSize: { xs: 30, md: 34 } }} />
               <Typography
                 variant="h6"
-                sx={{ fontSize: { xs: '1.15rem', md: '1.35rem' }, fontWeight: 800, color: '#8B0000' }}
+                sx={{
+                  display: { xs: 'none', sm: 'block' },
+                  fontSize: { xs: '1.15rem', md: '1.35rem' },
+                  fontWeight: 800,
+                  color: '#8B0000',
+                }}
               >
                 FlightTracker
               </Typography>
@@ -99,16 +106,17 @@ export const Header: React.FC<HeaderProps> = ({ onLoginClick }) => {
             )}
           </Stack>
 
-          <Stack direction="row" spacing={1.5} alignItems="center">
+<Stack direction="row" spacing={1.5} alignItems="center">
             <Button
               component={NavLink}
               to="/login"
               variant="text"
               onClick={onLoginClick}
               sx={{
-                display: { xs: 'none', sm: 'inline-flex' },
+                display: 'inline-flex', // Siempre visible
                 color: '#8B0000',
                 fontWeight: 600,
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }, // Ajuste opcional para pantallas muy chicas
                 '&:hover': { color: '#B30000', bgcolor: 'rgba(139, 0, 0, 0.08)' },
               }}
             >
@@ -119,10 +127,11 @@ export const Header: React.FC<HeaderProps> = ({ onLoginClick }) => {
               to="/register"
               variant="contained"
               sx={{
-                display: { xs: 'none', sm: 'inline-flex' },
+                display: 'inline-flex', // Siempre visible
                 bgcolor: '#8B0000',
                 color: '#FFFFFF',
                 fontWeight: 700,
+                fontSize: { xs: '0.75rem', sm: '0.875rem' }, // Ajuste opcional para pantallas muy chicas
                 '&:hover': { bgcolor: '#660000' },
               }}
             >
@@ -141,6 +150,8 @@ export const Header: React.FC<HeaderProps> = ({ onLoginClick }) => {
           </Stack>
         </Toolbar>
       </Container>
+
+
 
       <Drawer
         anchor="right"
