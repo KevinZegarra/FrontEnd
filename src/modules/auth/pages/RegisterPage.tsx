@@ -33,7 +33,7 @@ export const RegisterPage: React.FC = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        py: { xs: 5, md: 8 },
+        py: { xs: 2, md: 3 },
         px: 2,
       }}
     >
@@ -47,15 +47,15 @@ export const RegisterPage: React.FC = () => {
           sx={{
             width: "100%",
             maxWidth: 520,
-            p: { xs: 3, sm: 4.5, md: 5 },
+            p: { xs: 2.5, sm: 3.5 },
             bgcolor: "background.paper",
             borderRadius: 4,
             border: 1,
             borderColor: "divider",
-            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.05)",
+            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.3)",
           }}
         >
-          <Stack spacing={3.5} alignItems="center">
+          <Stack spacing={2} alignItems="center">
             {/* Logo & Encabezado */}
             <Stack
               spacing={1.5}
@@ -75,8 +75,8 @@ export const RegisterPage: React.FC = () => {
               >
                 <Box
                   sx={{
-                    width: 40,
-                    height: 40,
+                    width: 32,
+                    height: 32,
                     bgcolor: "primary.main",
                     borderRadius: 1.5,
                     display: "flex",
@@ -86,8 +86,8 @@ export const RegisterPage: React.FC = () => {
                   }}
                 >
                   <svg
-                    width="22"
-                    height="22"
+                    width="18"
+                    height="18"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
